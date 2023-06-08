@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <script ></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * { padding: 0; margin: 0; }
+    	canvas { background: #eee; display: block; margin: 0 auto; }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="480" height="320"></canvas>
+    <script>
+let canvas = document.getElementById("myCanvas");
+let ctx = canvas.getContext("2d");
+
+let x = 243;
+let y = 170; 
+let dy = 5;
+let dx =1;
+
+let raquetX = 470;
+let raquetY = 110;
+
+let downPressed = false;
+let upPressed = false;
+
+//Eventos de mobimiento de raquetas callbacks funsion como parametro de otra funcion
+
+document.addEventListener("keydown",keyDownHandler, false);
+document.addEventListener("keyup",keyUpHandler, false);
+
+function keyDownHandler(e){
+    //alert(e.keyCode);
+    if(e.keyCode == 40)
+    {
+        downPressed = true;
+    }
+    else if(e.keyCode == 38){
+        upPressed = true;
+    }
+}
+
+function keyUpHandler(e){
+    //alert(e.keyCode);
+    if(e.keyCode == 40)
+    {
+        downPressed = false;
+    }
+    else if(e.keyCode == 38){
+        upPressed = false;
+    }
+}
+
+function drawBall()
+        {
+            ctx.beginPath();
+            ctx.arc(x, y, 10, 0, Math.PI*2);
+            ctx.fillStyle = "#0095DD";
+            ctx.fill();
+            ctx.closePath();
+          
+           
+        }
+
+function drawraquet(){
+            ctx.beginPath();
+            ctx.rect(10,110,10,60);
+            ctx.fillStyle = "#0095DD";
+            ctx.fill();
+            ctx.closePath();
+
+            //segunda raqueta
+            ctx.beginPath();
+            ctx.rect(raquetX,raquetY,10,60);
+            ctx.fillStyle = "#0095DD";
+            ctx.fill();
+            ctx.closePath();
+        
+            
+            
+        }  
+function colission(){
+
+    let distanceX = raquetX - x;
+    if(distanceX<0)
+        distanceX = -distanceX;
+    let distanceY = raquetY - y;
+
+    if(distanceX < 5 && distanceY <5)
+    {
+        dx = -dx;
+    }
+
+    
+
+}
+
+        function draw(){
+            
+            ctx.clearRect(0, 0, 480, 320);
+            drawBall();
+            drawraquet();
+            colission();
+
+         
+            if(y >= 310)
+            {
+                
+                dy = dy *(-1);
+
+
+            }
+
+            if(y <= 10)
+            {
+            
+                dy = dy *(-1);
+
+            }
+
+    
+            x = x +dx;
+            y = y + dy;
+
+            //Teclas Up y Down
+            if(downPressed == true)
+            {
+                raquetY++
+            }
+            if(upPressed == true)
+            {
+                raquetY--
+            }
+        
+        } 
+        
+        
+
+
+        
+function aumentar()
+{
+    let contador = 0;
+    if(contador = 2)
+    {
+    dy++;
+}
+}
+
+ setInterval(draw, 10);
+
+    </script>
+    
+</body>
+</html>
